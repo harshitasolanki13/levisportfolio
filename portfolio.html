@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio — Levisha Malviya</title>
+  <meta name="description" content="Portfolio of interior design projects by Levisha Malviya — residential, commercial and hospitality spaces." />
+  <link rel="stylesheet" href="css/main.css" />
+  <style>
+    /* ── Page Header ── */
+    .page-header {
+      padding-top: calc(var(--nav-h) + 80px);
+      padding-bottom: 60px;
+    }
+    .page-header__inner {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: end;
+      gap: 60px;
+    }
+    .page-header__num {
+      font-family: var(--font-display);
+      font-size: clamp(5rem, 14vw, 12rem);
+      font-weight: 400;
+      line-height: 0.9;
+      color: rgba(28,28,28,0.05);
+      letter-spacing: -0.06em;
+      text-align: right;
+      user-select: none;
+    }
+    .page-header h1 { line-height: 1.05; }
+    .page-header__sub {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--gray-400);
+      margin-top: 16px;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Filter Bar ── */
+    .filter-bar {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 48px;
+      border-top: 0.5px solid var(--border);
+      border-bottom: 0.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .filter-bar::-webkit-scrollbar { display: none; }
+    .filter-btn {
+      font-family: var(--font-sans);
+      font-size: 0.68rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      background: none;
+      border: none;
+      padding: 20px 28px;
+      cursor: pointer;
+      position: relative;
+      white-space: nowrap;
+      transition: color var(--t-fast);
+    }
+    .filter-btn::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 28px; right: 28px;
+      height: 0.5px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transition: transform 0.3s var(--ease);
+    }
+    .filter-btn:hover { color: var(--charcoal); }
+    .filter-btn.active { color: var(--charcoal); }
+    .filter-btn.active::after { transform: scaleX(1); }
+    .filter-count {
+      font-size: 0.58rem;
+      color: var(--gold);
+      margin-left: 6px;
+      font-style: normal;
+    }
+
+    /* ── Masonry Grid ── */
+    .portfolio-grid {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 64px 48px 120px;
+      columns: 3;
+      column-gap: 24px;
+    }
+    .portfolio-card {
+      display: block;
+      break-inside: avoid;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+      background: var(--gray-100);
+      transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+    }
+    .portfolio-card__img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+      transition: transform 0.7s var(--ease);
+    }
+    .portfolio-card:hover .portfolio-card__img { transform: scale(1.06); }
+    .portfolio-card__hover {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(28,28,28,0.78) 0%, rgba(28,28,28,0.1) 55%, transparent 100%);
+      opacity: 0;
+      transition: opacity var(--t-med);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 24px;
+    }
+    .portfolio-card:hover .portfolio-card__hover { opacity: 1; }
+    .portfolio-card__desc {
+      font-size: 0.8rem;
+      font-weight: 300;
+      color: rgba(245,240,232,0.82);
+      line-height: 1.55;
+      margin-top: 8px;
+    }
+    .portfolio-card__meta {
+      padding: 16px 20px 20px;
+      background: var(--white);
+      border-top: 0.5px solid var(--border);
+    }
+    .portfolio-card__cat {
+      font-size: 0.58rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+    .portfolio-card__title {
+      font-family: var(--font-display);
+      font-size: 1.0625rem;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+    }
+    .portfolio-card__location {
+      font-size: 0.75rem;
+      color: var(--gray-400);
+      margin-top: 4px;
+      font-weight: 300;
+    }
+
+    /* Vary card heights */
+    .portfolio-card:nth-child(1) .portfolio-card__img { aspect-ratio: 3/4; }
+    .portfolio-card:nth-child(2) .portfolio-card__img { aspect-ratio: 4/5; }
+    .portfolio-card:nth-child(3) .portfolio-card__img { aspect-ratio: 1/1; }
+    .portfolio-card:nth-child(4) .portfolio-card__img { aspect-ratio: 3/4; }
+    .portfolio-card:nth-child(5) .portfolio-card__img { aspect-ratio: 4/3; }
+    .portfolio-card:nth-child(6) .portfolio-card__img { aspect-ratio: 3/5; }
+    .portfolio-card:nth-child(7) .portfolio-card__img { aspect-ratio: 1/1; }
+    .portfolio-card:nth-child(8) .portfolio-card__img { aspect-ratio: 4/5; }
+    .portfolio-card:nth-child(9) .portfolio-card__img { aspect-ratio: 3/4; }
+
+    /* ── Load More ── */
+    .load-more {
+      text-align: center;
+      padding: 0 0 120px;
+    }
+
+    @media (max-width: 1024px) {
+      .portfolio-grid { columns: 2; padding: 48px 32px 80px; }
+    }
+    @media (max-width: 768px) {
+      .page-header__inner { grid-template-columns: 1fr; gap: 0; }
+      .page-header__num { display: none; }
+      .page-header { padding-top: calc(var(--nav-h) + 48px); }
+      .filter-bar { padding: 0 24px; }
+      .portfolio-grid { columns: 1; padding: 32px 24px 80px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">
+        <span class="nav__logo-name">Levisha Malviya</span>
+        <span class="nav__logo-sub">Interior Designer</span>
+      </a>
+      <ul class="nav__links">
+        <li><a href="portfolio.html" class="active">Portfolio</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <button class="nav__burger" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="nav__mobile">
+    <a href="portfolio.html">Portfolio</a>
+    <a href="about.html">About</a>
+    <a href="services.html">Services</a>
+    <a href="contact.html">Contact</a>
+    <p class="nav__mobile-tagline">Spaces That Tell Your Story</p>
+  </div>
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="page-header__inner">
+      <div>
+        <div class="section-label">Work</div>
+        <h1>Portfolio</h1>
+        <p class="page-header__sub">Residential · Commercial · Hospitality</p>
+      </div>
+      <div class="page-header__num">12</div>
+    </div>
+  </header>
+
+  <!-- Filter Bar -->
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">All Projects <em class="filter-count">12</em></button>
+    <button class="filter-btn" data-filter="residential">Residential <em class="filter-count">6</em></button>
+    <button class="filter-btn" data-filter="commercial">Commercial <em class="filter-count">4</em></button>
+    <button class="filter-btn" data-filter="hospitality">Hospitality <em class="filter-count">2</em></button>
+  </div>
+
+  <!-- Portfolio Grid -->
+  <div class="portfolio-grid">
+
+    <a href="project-detail.html" class="portfolio-card reveal" data-category="residential">
+      <img class="portfolio-card__img" src="https://picsum.photos/seed/lm-g1/700/900" alt="The Ivory Residence" loading="lazy">
+      <div class="portfolio-card__hover">
+        <div class="project-card__tag" style="color:var(--gold);font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:500;">Residential · New Delhi, 2024</div>
+        <p class="portfolio-card__desc">A sanctuary of restrained luxury in warm travertine and curated textiles.</p>
+      </div>
+      <div class="portfolio-card__meta">
+        <div class="portfolio-card__cat">Residential</div>
+        <div class="portfolio-card__title">The Ivory Residence</div>
+        <div class="portfolio-card__location">New Delhi, 2024</div>
+      </div>
+    </a>
+
+    <a href="project-detail.html" class="portfolio-card reveal reveal--delay-1" data-category="commercial">
+      <img class="portfolio-card__img" src="https://picsum.photos/seed/lm-g2/700/850" alt="Studio Ara" loading="lazy">
+      <div class="portfolio-card__hover">
+        <div class="project-card__tag" style="color:var(--gold);font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:500;">Commercial · Mumbai, 2024</div>
+        <p class="portfolio-card__desc">A creative workspace redefined through sculptural forms and natural light.</p>
+      </div>
+      <div class="portfolio-card__meta">
+        <div class="portfolio-card__cat">Commercial</div>
+        <div class="portfolio-card__title">Studio Ara</div>
+        <div class="portfolio-card__location">Mumbai, 2024</div>
+      </div>
+    </a>
+
+    <a href="project-detail.html" class="portfolio-card reveal reveal--delay-2" data-category="hospitality">
+      <img class="portfolio-card__img" src="https://picsum.photos/seed/lm-g3/700/700" alt="The Amber Suite" loading="lazy">
+      <div class="portfolio-card__hover">
+        <div class="project-card__tag" style="color:var(--gold);font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:500;">Hospitality · Jaipur, 2023</div>
+        <p class="portfolio-card__desc">Boutique hotel suite built around the poetry of candlelight and aged brass.</p>
+      </div>
+      <div class="portfolio-card__meta">
+        <div class="portfolio-card__cat">Hospitality</div>
+        <div class="portfolio-card__title">The Amber Suite</div>
+        <div class="portfolio-card__location">Jaipur, 2023</div>
+      </div>
+    </a>
+
+    <a href="project-detail.html" class="portfolio-card reveal" data-category="residential">
+      <img class="portfolio-card__img" src="https://picsum.photos/seed/lm-g4/700/900" alt="Casa Mira" loading="lazy">
+      <div class="portfolio-card__hover">
+        <div class="project-card__tag" style="color:var(--gold);font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:500;">Residential · Goa, 2023</div>
+        <p class="portfolio-card__desc">Coastal living reimagined through raw linen, bleached oak and sea light.</p>
+      </div>
+      <div class="portfolio-card__meta">
+        <div class="portfolio-card__cat">Residential</div>
+        <div class="portfolio-card__title">Casa Mira</div>
+        <div class="portfolio-card__location">Goa, 2023</div>
+      </div>
+    </a>
+
+    <a href="project-detail.html" class="portfolio-card reveal reveal--delay-1" data-category="commercial">
+      <img class="portfolio-card__img" src="https://picsum.photos/seed/lm-g5/700/535" alt="The Atelier" loading="lazy">
+      <div class="portfolio-card__hover">
+        <div class="project-card__tag" style="color:var(--gold);font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:500;">Commercial · Bengaluru, 2023</div>
+        <p class="portfolio-card__desc">A fashion atelier where every surface is a considered gesture.</p>
+      </div>
+      <div class="portfolio-card__meta">
+        <div class="portfolio-card__cat">Commercial</div>
+        <div class="portfolio-card__title">The Atelier</div>
+        <div class="portfolio-card__location">Bengaluru, 2023</div>
+      </div>
+    </a>
+
+    <a href="project-detail.html" class="portfolio-card reveal reveal--delay-2" data-category="residential">
+      <img class="portfolio-card__img" src="https://picsum.photos/seed/lm-g6/700/1050" alt="Penthouse Noir" loading="lazy">
+      <div class="portfolio-card__hover">
+        <div class="project-card__tag" style="color:var(--gold);font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:500;">Residential · Hyderabad, 2022</div>
+        <p class="portfolio-card__desc">Drama in deep charcoal, smoked mirrors, and handcrafted brass accents.</p>
+      </div>
+      <div class="portfolio-card__meta">
+        <div class="portfolio-card__cat">Residential</div>
+        <div class="portfolio-card__title">Penthouse Noir</div>
+        <div class="portfolio-card__location">Hyderabad, 2022</div>
+      </div>
+    </a>
+
+    <a href="project-detail.html" class="portfolio-card reveal" data-category="residential">
+      <img class="portfolio-card__img" src="https://picsum.photos/seed/lm-g7/700/700" alt="The Stone House" loading="lazy">
+      <div class="portfolio-card__hover">
+        <div class="project-card__tag" style="color:var(--gold);font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:500;">Residential · Pune, 2022</div>
+        <p class="portfolio-card__desc">A family home that celebrates the warmth of hand-laid stone and arched volumes.</p>
+      </div>
+      <div class="portfolio-card__meta">
+        <div class="portfolio-card__cat">Residential</div>
+        <div class="portfolio-card__title">The Stone House</div>
+        <div class="portfolio-card__location">Pune, 2022</div>
+      </div>
+    </a>
+
+    <a href="project-detail.html" class="portfolio-card reveal reveal--delay-1" data-category="commercial">
+      <img class="portfolio-card__img" src="https://picsum.photos/seed/lm-g8/700/850" alt="Dhara Café" loading="lazy">
+      <div class="portfolio-card__hover">
+        <div class="project-card__tag" style="color:var(--gold);font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:500;">Commercial · New Delhi, 2022</div>
+        <p class="portfolio-card__desc">A specialty café where craft and materiality converge over the ritual of coffee.</p>
+      </div>
+      <div class="portfolio-card__meta">
+        <div class="portfolio-card__cat">Commercial</div>
+        <div class="portfolio-card__title">Dhara Café</div>
+        <div class="portfolio-card__location">New Delhi, 2022</div>
+      </div>
+    </a>
+
+    <a href="project-detail.html" class="portfolio-card reveal reveal--delay-2" data-category="hospitality">
+      <img class="portfolio-card__img" src="https://picsum.photos/seed/lm-g9/700/900" alt="Rasa Retreat" loading="lazy">
+      <div class="portfolio-card__hover">
+        <div class="project-card__tag" style="color:var(--gold);font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:500;">Hospitality · Rishikesh, 2021</div>
+        <p class="portfolio-card__desc">A wellness retreat designed around silence, natural materials, and spiritual calm.</p>
+      </div>
+      <div class="portfolio-card__meta">
+        <div class="portfolio-card__cat">Hospitality</div>
+        <div class="portfolio-card__title">Rasa Retreat</div>
+        <div class="portfolio-card__location">Rishikesh, 2021</div>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="load-more">
+    <button class="btn"><span>Load More Projects</span></button>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__top">
+        <div>
+          <div class="footer__brand-name">Levisha Malviya</div>
+          <div class="footer__brand-tag">Spaces That Tell Your Story</div>
+          <p class="footer__brand-desc">A luxury interior design practice crafting bespoke environments that honour the stories of those who inhabit them.</p>
+        </div>
+        <div>
+          <div class="footer__col-title">Navigate</div>
+          <ul class="footer__list">
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer__col-title">Contact</div>
+          <div class="footer__contact-row">
+            <div class="footer__contact-label">Email</div>
+            <div class="footer__contact-val">hello@levisha.design</div>
+          </div>
+          <div class="footer__contact-row">
+            <div class="footer__contact-label">Studio</div>
+            <div class="footer__contact-val">New Delhi, India</div>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span class="footer__copy">&copy; 2025 Levisha Malviya. All rights reserved.</span>
+        <div class="footer__social">
+          <a href="#">Instagram</a>
+          <a href="#">LinkedIn</a>
+          <a href="#">Behance</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

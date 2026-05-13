@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Levisha Malviya</title>
+  <meta name="description" content="Levisha Malviya is a luxury interior designer based in New Delhi with 12+ years crafting bespoke residential, commercial and hospitality spaces." />
+  <link rel="stylesheet" href="css/main.css" />
+  <style>
+    /* ── About Hero ── */
+    .about-hero {
+      padding-top: var(--nav-h);
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .about-hero__img-col {
+      position: relative;
+      overflow: hidden;
+    }
+    .about-hero__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+    .about-hero__img-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, transparent 60%, var(--cream) 100%);
+    }
+    .about-hero__text-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 80px 80px 60px;
+    }
+    .about-hero__eyebrow {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .about-hero__name {
+      font-size: clamp(2.5rem, 5vw, 5rem);
+      line-height: 1.05;
+      margin-bottom: 8px;
+    }
+    .about-hero__title-line {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(1rem, 1.8vw, 1.375rem);
+      color: var(--gold);
+      letter-spacing: 0.03em;
+      margin-bottom: 40px;
+    }
+    .about-hero__intro {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--gray-600);
+      margin-bottom: 48px;
+      font-weight: 300;
+      max-width: 480px;
+    }
+    .about-hero__cred {
+      display: flex;
+      gap: 40px;
+      padding-top: 40px;
+      border-top: 0.5px solid var(--border);
+    }
+    .about-hero__cred-item { display: flex; flex-direction: column; gap: 4px; }
+    .about-hero__cred-num {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 400;
+      line-height: 1;
+    }
+    .about-hero__cred-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      font-weight: 400;
+    }
+
+    /* ── Philosophy ── */
+    .philosophy {
+      padding: 120px 0;
+      background: var(--charcoal);
+      text-align: center;
+    }
+    .philosophy__inner {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+    .philosophy__label {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 40px;
+    }
+    .philosophy__quote {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(1.75rem, 3.5vw, 3rem);
+      color: var(--white);
+      line-height: 1.35;
+      letter-spacing: -0.015em;
+      margin-bottom: 32px;
+      font-weight: 400;
+    }
+    .philosophy__quote::before { content: '\201C'; color: var(--gold); }
+    .philosophy__quote::after  { content: '\201D'; color: var(--gold); }
+    .philosophy__author {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.35);
+      font-weight: 400;
+    }
+
+    /* ── Bio ── */
+    .bio {
+      padding: 120px 0;
+    }
+    .bio__inner {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 48px;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .bio__text p {
+      font-size: 0.9375rem;
+      line-height: 1.85;
+      margin-bottom: 22px;
+      color: var(--gray-600);
+    }
+    .bio__text p:first-of-type {
+      font-family: var(--font-serif);
+      font-size: 1.1875rem;
+      color: var(--charcoal);
+      line-height: 1.65;
+    }
+    .bio__aside {}
+    .bio__aside-img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      margin-bottom: 32px;
+    }
+
+    /* ── Services ── */
+    .services-list {
+      padding: 100px 0;
+      background: var(--white);
+    }
+    .services-list__header {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 48px;
+      margin-bottom: 60px;
+    }
+    .services-list__grid {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 48px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+    }
+    .service-item {
+      padding: 40px;
+      border-right: 0.5px solid var(--border);
+      border-top: 0.5px solid var(--border);
+    }
+    .service-item:nth-child(1),
+    .service-item:nth-child(2),
+    .service-item:nth-child(3) { border-top: none; }
+    .service-item:nth-child(3n) { border-right: none; }
+    .service-item__num {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 400;
+      color: rgba(28,28,28,0.06);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .service-item__name {
+      font-family: var(--font-display);
+      font-size: 1.1875rem;
+      font-weight: 400;
+      margin-bottom: 12px;
+    }
+    .service-item__desc {
+      font-size: 0.825rem;
+      line-height: 1.7;
+      color: var(--gray-400);
+      font-weight: 300;
+    }
+
+    /* ── Awards ── */
+    .awards {
+      padding: 100px 0;
+    }
+    .awards__inner {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+    .awards__header { margin-bottom: 60px; }
+    .award-row {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      gap: 32px;
+      align-items: center;
+      padding: 28px 0;
+      border-top: 0.5px solid var(--border);
+      transition: opacity var(--t-fast);
+    }
+    .award-row:last-child { border-bottom: 0.5px solid var(--border); }
+    .award-row:hover { opacity: 0.7; }
+    .award-year {
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      font-weight: 400;
+      color: var(--gold);
+    }
+    .award-name {
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      font-weight: 400;
+    }
+    .award-org {
+      font-size: 0.75rem;
+      color: var(--gray-400);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 400;
+      text-align: right;
+    }
+
+    /* ── Press ── */
+    .press {
+      padding: 80px 0;
+      background: var(--cream);
+      border-top: 0.5px solid var(--border);
+    }
+    .press__inner {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+    .press__title {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 40px;
+    }
+    .press__logos {
+      display: flex;
+      align-items: center;
+      gap: 60px;
+      flex-wrap: wrap;
+    }
+    .press__logo {
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      font-weight: 400;
+      color: rgba(28,28,28,0.25);
+      letter-spacing: 0.06em;
+      transition: color var(--t-fast);
+      font-style: italic;
+    }
+    .press__logo:hover { color: var(--charcoal); }
+
+    @media (max-width: 1024px) {
+      .about-hero { grid-template-columns: 1fr; min-height: auto; }
+      .about-hero__img-col { height: 60vh; }
+      .about-hero__text-col { padding: 60px 48px; }
+      .bio__inner { grid-template-columns: 1fr; }
+      .bio__aside { display: none; }
+      .services-list__grid { grid-template-columns: 1fr 1fr; }
+      .service-item:nth-child(2n) { border-right: none; }
+      .service-item:nth-child(3) { border-top: 0.5px solid var(--border); }
+    }
+    @media (max-width: 768px) {
+      .about-hero__text-col { padding: 48px 24px; }
+      .about-hero__cred { gap: 28px; }
+      .philosophy__inner { padding: 0 24px; }
+      .bio__inner { padding: 0 24px; }
+      .services-list__grid { grid-template-columns: 1fr; padding: 0 24px; }
+      .service-item { border-right: none !important; }
+      .service-item:nth-child(1) { border-top: none; }
+      .service-item:nth-child(n+2) { border-top: 0.5px solid var(--border); }
+      .awards__inner { padding: 0 24px; }
+      .award-row { grid-template-columns: 60px 1fr; }
+      .award-org { display: none; }
+      .press__inner { padding: 0 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">
+        <span class="nav__logo-name">Levisha Malviya</span>
+        <span class="nav__logo-sub">Interior Designer</span>
+      </a>
+      <ul class="nav__links">
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="about.html" class="active">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <button class="nav__burger" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="nav__mobile">
+    <a href="portfolio.html">Portfolio</a>
+    <a href="about.html">About</a>
+    <a href="services.html">Services</a>
+    <a href="contact.html">Contact</a>
+    <p class="nav__mobile-tagline">Spaces That Tell Your Story</p>
+  </div>
+
+  <!-- About Hero -->
+  <section class="about-hero">
+    <div class="about-hero__img-col">
+      <img class="about-hero__img" src="https://picsum.photos/seed/lm-about/900/1200" alt="Levisha Malviya — Portrait" />
+      <div class="about-hero__img-overlay"></div>
+    </div>
+    <div class="about-hero__text-col">
+      <div class="about-hero__eyebrow reveal">Interior Designer</div>
+      <h1 class="about-hero__name reveal reveal--delay-1">Levisha<br>Malviya</h1>
+      <div class="about-hero__title-line reveal reveal--delay-2">New Delhi · Est. 2012</div>
+      <p class="about-hero__intro reveal reveal--delay-3">
+        I believe that great interiors are the result of deep listening — to the people who will live or work within them, to the architecture, and to the quiet intelligence of materials. My practice is built on that belief.
+      </p>
+      <div class="about-hero__cred reveal reveal--delay-4">
+        <div class="about-hero__cred-item">
+          <span class="about-hero__cred-num">48+</span>
+          <span class="about-hero__cred-label">Projects</span>
+        </div>
+        <div class="about-hero__cred-item">
+          <span class="about-hero__cred-num">12</span>
+          <span class="about-hero__cred-label">Years</span>
+        </div>
+        <div class="about-hero__cred-item">
+          <span class="about-hero__cred-num">6</span>
+          <span class="about-hero__cred-label">Awards</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Philosophy -->
+  <section class="philosophy">
+    <div class="philosophy__inner">
+      <div class="philosophy__label reveal">Design Philosophy</div>
+      <p class="philosophy__quote reveal reveal--delay-1">
+        Every room holds the potential for a narrative yet to be told. My work is the act of listening for it.
+      </p>
+      <div class="philosophy__author reveal reveal--delay-2">— Levisha Malviya</div>
+    </div>
+  </section>
+
+  <!-- Bio -->
+  <section class="bio">
+    <div class="bio__inner">
+      <div class="bio__text">
+        <div class="section-label reveal">Story</div>
+        <div class="section-rule reveal reveal--delay-1"></div>
+        <p class="reveal reveal--delay-1">
+          Levisha Malviya is a luxury interior designer whose practice spans private residences, boutique hospitality, and thoughtfully curated commercial spaces across India and internationally.
+        </p>
+        <p class="reveal reveal--delay-2">
+          Born in Jaipur and educated in design at the National Institute of Design (NID) and the Politecnico di Milano, Levisha brings an uncommon depth to the craft — one shaped by an equal appreciation for Mughal symmetry, Brutalist materiality, and the silent luxury of Scandinavian restraint.
+        </p>
+        <p class="reveal reveal--delay-2">
+          Her studio, founded in New Delhi in 2012, operates as a collaborative atelier — small by intention, rigorous by design. Each project is approached as a long-term relationship, with Levisha personally involved from initial concept through to installation.
+        </p>
+        <p class="reveal reveal--delay-3">
+          Her work has been featured in Architectural Digest India, Elle Decor, and The Hindu Weekend, and she has been recognised by the Interior Design Society of India and the Asia Pacific Interior Design Awards.
+        </p>
+        <p class="reveal reveal--delay-3">
+          When not in her studio or on site, she is most likely at an auction house, a ceramics market, or on a slow walk through a city she's never seen before — collecting the material for what comes next.
+        </p>
+      </div>
+      <div class="bio__aside">
+        <img class="bio__aside-img reveal" src="https://picsum.photos/seed/lm-studio/600/800" alt="Studio view" loading="lazy">
+        <div class="section-label" style="margin-top:0;">Education</div>
+        <ul style="list-style:none;margin-top:12px;">
+          <li style="padding:12px 0;border-bottom:0.5px solid var(--border);font-size:0.875rem;color:var(--gray-600);font-weight:300;">B.Des, National Institute of Design<br><span style="font-size:0.75rem;color:var(--gray-400);">Ahmedabad, 2010</span></li>
+          <li style="padding:12px 0;border-bottom:0.5px solid var(--border);font-size:0.875rem;color:var(--gray-600);font-weight:300;">M.Des Interior & Spatial Design<br><span style="font-size:0.75rem;color:var(--gray-400);">Politecnico di Milano, 2012</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Overview -->
+  <section class="services-list">
+    <div class="services-list__header">
+      <div class="section-label reveal">What I Do</div>
+      <h2 class="reveal reveal--delay-1">Services</h2>
+    </div>
+    <div class="services-list__grid">
+      <div class="service-item reveal">
+        <div class="service-item__num">01</div>
+        <div class="service-item__name">Space Planning</div>
+        <p class="service-item__desc">Thoughtful organisation of space to serve how people actually live — prioritising light, flow, and human scale.</p>
+      </div>
+      <div class="service-item reveal reveal--delay-1">
+        <div class="service-item__num">02</div>
+        <div class="service-item__name">Interior Styling</div>
+        <p class="service-item__desc">The edit that makes everything cohere — furniture arrangement, object curation, and layering of textiles and art.</p>
+      </div>
+      <div class="service-item reveal reveal--delay-2">
+        <div class="service-item__num">03</div>
+        <div class="service-item__name">FF&amp;E Procurement</div>
+        <p class="service-item__desc">Sourcing furniture, fixtures and equipment from the finest makers — domestic artisans and international ateliers alike.</p>
+      </div>
+      <div class="service-item reveal">
+        <div class="service-item__num">04</div>
+        <div class="service-item__name">3D Visualisation</div>
+        <p class="service-item__desc">Photorealistic renders that allow clients to inhabit a space before a single decision is finalised.</p>
+      </div>
+      <div class="service-item reveal reveal--delay-1">
+        <div class="service-item__num">05</div>
+        <div class="service-item__name">Project Management</div>
+        <p class="service-item__desc">Full site supervision from contractor coordination to quality control — protecting the vision through to delivery.</p>
+      </div>
+      <div class="service-item reveal reveal--delay-2">
+        <div class="service-item__num">06</div>
+        <div class="service-item__name">Art Curation</div>
+        <p class="service-item__desc">Collaborating with emerging and established artists to embed meaningful works within the designed environment.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Awards -->
+  <section class="awards">
+    <div class="awards__inner">
+      <div class="awards__header">
+        <div class="section-label reveal">Recognition</div>
+        <h2 class="reveal reveal--delay-1">Awards &amp;<br>Press</h2>
+      </div>
+
+      <div class="award-row reveal">
+        <div class="award-year">2024</div>
+        <div>
+          <div class="award-name">Residential Design of the Year</div>
+          <div style="font-size:0.8rem;color:var(--gray-400);margin-top:4px;font-weight:300;">The Ivory Residence, New Delhi</div>
+        </div>
+        <div class="award-org">Interior Design Society of India</div>
+      </div>
+      <div class="award-row reveal">
+        <div class="award-year">2023</div>
+        <div>
+          <div class="award-name">Hospitality Design Excellence</div>
+          <div style="font-size:0.8rem;color:var(--gray-400);margin-top:4px;font-weight:300;">The Amber Suite, Jaipur</div>
+        </div>
+        <div class="award-org">Asia Pacific Interior Design Awards</div>
+      </div>
+      <div class="award-row reveal">
+        <div class="award-year">2022</div>
+        <div>
+          <div class="award-name">Young Designers Award — Finalist</div>
+          <div style="font-size:0.8rem;color:var(--gray-400);margin-top:4px;font-weight:300;">National recognition</div>
+        </div>
+        <div class="award-org">Elle Decor India</div>
+      </div>
+      <div class="award-row reveal">
+        <div class="award-year">2021</div>
+        <div>
+          <div class="award-name">Best Commercial Interiors</div>
+          <div style="font-size:0.8rem;color:var(--gray-400);margin-top:4px;font-weight:300;">Dhara Café, New Delhi</div>
+        </div>
+        <div class="award-org">FX International Interior Design Awards</div>
+      </div>
+      <div class="award-row reveal">
+        <div class="award-year">2019</div>
+        <div>
+          <div class="award-name">40 Under 40 — Designers</div>
+          <div style="font-size:0.8rem;color:var(--gray-400);margin-top:4px;font-weight:300;">Class of 2019</div>
+        </div>
+        <div class="award-org">Architectural Digest India</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Press -->
+  <section class="press">
+    <div class="press__inner">
+      <div class="press__title">As Featured In</div>
+      <div class="press__logos">
+        <span class="press__logo">Architectural Digest</span>
+        <span class="press__logo">Elle Decor</span>
+        <span class="press__logo">The Hindu</span>
+        <span class="press__logo">Living Etc.</span>
+        <span class="press__logo">Vogue Living</span>
+        <span class="press__logo">Wallpaper*</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__top">
+        <div>
+          <div class="footer__brand-name">Levisha Malviya</div>
+          <div class="footer__brand-tag">Spaces That Tell Your Story</div>
+          <p class="footer__brand-desc">A luxury interior design practice crafting bespoke environments that honour the stories of those who inhabit them.</p>
+        </div>
+        <div>
+          <div class="footer__col-title">Navigate</div>
+          <ul class="footer__list">
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer__col-title">Contact</div>
+          <div class="footer__contact-row">
+            <div class="footer__contact-label">Email</div>
+            <div class="footer__contact-val">hello@levisha.design</div>
+          </div>
+          <div class="footer__contact-row">
+            <div class="footer__contact-label">Studio</div>
+            <div class="footer__contact-val">New Delhi, India</div>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span class="footer__copy">&copy; 2025 Levisha Malviya. All rights reserved.</span>
+        <div class="footer__social">
+          <a href="#">Instagram</a>
+          <a href="#">LinkedIn</a>
+          <a href="#">Behance</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

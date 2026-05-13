@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — Levisha Malviya</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream:    #F5F0E8;
+      --charcoal: #1C1C1C;
+      --gold:     #C9A96E;
+      --white:    #FFFFFF;
+      --sidebar:  #161616;
+      --sidebar-w: 256px;
+      --border:   rgba(28,28,28,0.1);
+      --green:    #4CAF7D;
+      --red:      #E05555;
+      --blue:     #5B7FD4;
+      --t:        0.22s ease;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #F0ECE4;
+      color: var(--charcoal);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+    }
+
+    /* ============================================================
+       SIDEBAR
+       ============================================================ */
+    .sidebar {
+      width: var(--sidebar-w);
+      min-height: 100vh;
+      background: var(--sidebar);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      z-index: 100;
+      overflow-y: auto;
+    }
+    .sidebar__brand {
+      padding: 28px 24px 24px;
+      border-bottom: 0.5px solid rgba(255,255,255,0.06);
+    }
+    .sidebar__brand-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--white);
+      letter-spacing: 0.04em;
+      margin-bottom: 3px;
+    }
+    .sidebar__brand-sub {
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 400;
+    }
+    .sidebar__nav { padding: 24px 0; flex: 1; }
+    .sidebar__section-label {
+      font-size: 0.55rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+      padding: 0 24px;
+      margin-bottom: 8px;
+      margin-top: 24px;
+    }
+    .sidebar__section-label:first-child { margin-top: 0; }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 24px;
+      color: rgba(255,255,255,0.45);
+      font-size: 0.8125rem;
+      font-weight: 400;
+      cursor: pointer;
+      text-decoration: none;
+      transition: color var(--t), background var(--t);
+      position: relative;
+      border-radius: 0;
+    }
+    .nav-item:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.04); }
+    .nav-item.active { color: var(--white); }
+    .nav-item.active::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: var(--gold);
+    }
+    .nav-item svg {
+      width: 15px; height: 15px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+    .nav-item .badge {
+      margin-left: auto;
+      background: var(--gold);
+      color: var(--charcoal);
+      font-size: 0.6rem;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 20px;
+    }
+    .sidebar__footer {
+      padding: 20px 24px;
+      border-top: 0.5px solid rgba(255,255,255,0.06);
+    }
+    .sidebar__user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .sidebar__avatar {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--charcoal);
+      flex-shrink: 0;
+    }
+    .sidebar__user-info {}
+    .sidebar__user-name {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.2;
+    }
+    .sidebar__user-role {
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ============================================================
+       MAIN CONTENT
+       ============================================================ */
+    .main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Topbar */
+    .topbar {
+      background: var(--white);
+      border-bottom: 0.5px solid var(--border);
+      padding: 0 36px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .topbar__left {}
+    .topbar__page-name {
+      font-size: 0.9375rem;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+    }
+    .topbar__breadcrumb {
+      font-size: 0.72rem;
+      color: rgba(28,28,28,0.35);
+      margin-top: 2px;
+    }
+    .topbar__right { display: flex; align-items: center; gap: 20px; }
+    .topbar__btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      border: 0.5px solid var(--charcoal);
+      background: var(--charcoal);
+      color: var(--white);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all var(--t);
+    }
+    .topbar__btn:hover { background: var(--gold); border-color: var(--gold); color: var(--charcoal); }
+    .topbar__btn svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; }
+    .topbar__notif {
+      position: relative;
+      width: 36px; height: 36px;
+      border: 0.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background var(--t);
+    }
+    .topbar__notif:hover { background: var(--cream); }
+    .topbar__notif svg { width: 15px; height: 15px; stroke: var(--charcoal); fill: none; stroke-width: 1.5; }
+    .notif-dot {
+      position: absolute;
+      top: 7px; right: 7px;
+      width: 6px; height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+    }
+
+    /* Content area */
+    .content {
+      padding: 36px;
+      flex: 1;
+    }
+
+    /* ============================================================
+       STATS CARDS
+       ============================================================ */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+    .stat-card {
+      background: var(--white);
+      border: 0.5px solid var(--border);
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card__label {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(28,28,28,0.38);
+      margin-bottom: 12px;
+    }
+    .stat-card__num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.75rem;
+      font-weight: 400;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .stat-card__change {
+      font-size: 0.72rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .stat-card__change.up { color: var(--green); }
+    .stat-card__change.down { color: var(--red); }
+    .stat-card__change::before {
+      content: '↑';
+      font-size: 0.9em;
+    }
+    .stat-card__change.down::before { content: '↓'; }
+    .stat-card__icon {
+      position: absolute;
+      top: 20px; right: 20px;
+      width: 36px; height: 36px;
+      border: 0.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .stat-card__icon svg {
+      width: 15px; height: 15px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 1.5;
+    }
+    .stat-card__sub {
+      font-size: 0.72rem;
+      color: rgba(28,28,28,0.38);
+      margin-top: 4px;
+    }
+
+    /* ============================================================
+       GRID LAYOUT (2 col)
+       ============================================================ */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .dashboard-grid--3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    /* ============================================================
+       PANEL (card)
+       ============================================================ */
+    .panel {
+      background: var(--white);
+      border: 0.5px solid var(--border);
+    }
+    .panel__head {
+      padding: 20px 24px;
+      border-bottom: 0.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .panel__title {
+      font-size: 0.8375rem;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+    }
+    .panel__action {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      cursor: pointer;
+      background: none;
+      border: none;
+      text-decoration: none;
+      transition: opacity var(--t);
+    }
+    .panel__action:hover { opacity: 0.7; }
+    .panel__body { padding: 0; }
+
+    /* ============================================================
+       TABLE
+       ============================================================ */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .data-table th {
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(28,28,28,0.35);
+      padding: 14px 24px;
+      text-align: left;
+      border-bottom: 0.5px solid var(--border);
+      background: #FAFAF7;
+    }
+    .data-table td {
+      padding: 16px 24px;
+      font-size: 0.8375rem;
+      border-bottom: 0.5px solid rgba(28,28,28,0.05);
+      vertical-align: middle;
+      color: var(--charcoal);
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: #FAFAF7; }
+    .project-thumb {
+      width: 44px;
+      height: 36px;
+      object-fit: cover;
+      display: block;
+    }
+    .project-cell {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .project-cell__name {
+      font-weight: 500;
+      font-size: 0.8375rem;
+      letter-spacing: -0.01em;
+      margin-bottom: 2px;
+    }
+    .project-cell__cat {
+      font-size: 0.65rem;
+      color: rgba(28,28,28,0.38);
+      letter-spacing: 0.06em;
+    }
+
+    /* Status badges */
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 0;
+    }
+    .status::before {
+      content: '';
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: currentColor;
+      flex-shrink: 0;
+    }
+    .status--active   { color: var(--green); background: rgba(76,175,125,0.08); }
+    .status--pending  { color: #D4923A; background: rgba(212,146,58,0.08); }
+    .status--complete { color: rgba(28,28,28,0.4); background: rgba(28,28,28,0.04); }
+    .status--review   { color: var(--blue); background: rgba(91,127,212,0.08); }
+
+    /* Action buttons */
+    .tbl-btn {
+      background: none;
+      border: 0.5px solid var(--border);
+      padding: 5px 12px;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      color: var(--charcoal);
+      transition: all var(--t);
+    }
+    .tbl-btn:hover { background: var(--charcoal); color: var(--white); border-color: var(--charcoal); }
+    .tbl-btn + .tbl-btn { margin-left: 6px; }
+
+    /* ============================================================
+       INQUIRY LIST
+       ============================================================ */
+    .inquiry-item {
+      display: grid;
+      grid-template-columns: 40px 1fr auto;
+      gap: 14px;
+      align-items: start;
+      padding: 18px 24px;
+      border-bottom: 0.5px solid rgba(28,28,28,0.05);
+      transition: background var(--t);
+      cursor: pointer;
+    }
+    .inquiry-item:last-child { border-bottom: none; }
+    .inquiry-item:hover { background: #FAFAF7; }
+    .inquiry-avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--white);
+      flex-shrink: 0;
+    }
+    .inquiry-name {
+      font-size: 0.8375rem;
+      font-weight: 500;
+      margin-bottom: 3px;
+    }
+    .inquiry-preview {
+      font-size: 0.78rem;
+      color: rgba(28,28,28,0.45);
+      font-weight: 300;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 240px;
+    }
+    .inquiry-meta {
+      text-align: right;
+    }
+    .inquiry-time {
+      font-size: 0.68rem;
+      color: rgba(28,28,28,0.35);
+      margin-bottom: 6px;
+    }
+    .inquiry-type {
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .inquiry-unread { font-weight: 600; }
+    .inquiry-unread .inquiry-name { color: var(--charcoal); }
+
+    /* ============================================================
+       ANALYTICS MINI CHART (CSS only)
+       ============================================================ */
+    .mini-chart {
+      padding: 24px;
+      height: 180px;
+      display: flex;
+      flex-direction: column;
+    }
+    .mini-chart__label {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(28,28,28,0.35);
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+    .mini-chart__val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 400;
+      margin-bottom: 4px;
+    }
+    .mini-chart__sub {
+      font-size: 0.72rem;
+      color: var(--green);
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+    .bar-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      flex: 1;
+    }
+    .bar-chart__col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      height: 100%;
+      justify-content: flex-end;
+    }
+    .bar-chart__bar {
+      width: 100%;
+      background: rgba(201,169,110,0.2);
+      border-top: 2px solid transparent;
+      transition: all 0.4s ease;
+    }
+    .bar-chart__bar.active { background: rgba(201,169,110,0.5); border-top-color: var(--gold); }
+    .bar-chart__lbl {
+      font-size: 0.55rem;
+      color: rgba(28,28,28,0.3);
+      letter-spacing: 0.05em;
+    }
+
+    /* ============================================================
+       INVENTORY TABLE
+       ============================================================ */
+    .inventory-row td:first-child { width: 48px; }
+    .inv-img { width: 40px; height: 40px; object-fit: cover; }
+    .inv-stock {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    .inv-stock-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+    }
+    .inv-stock--high .inv-stock-dot { background: var(--green); }
+    .inv-stock--med  .inv-stock-dot { background: #D4923A; }
+    .inv-stock--low  .inv-stock-dot { background: var(--red); }
+
+    /* ============================================================
+       QUICK ACTIONS
+       ============================================================ */
+    .quick-actions { padding: 24px; display: flex; flex-direction: column; gap: 10px; }
+    .quick-action-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border: 0.5px solid var(--border);
+      background: transparent;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: var(--charcoal);
+      transition: all var(--t);
+      text-align: left;
+    }
+    .quick-action-btn:hover { background: var(--charcoal); color: var(--white); border-color: var(--charcoal); }
+    .quick-action-btn svg {
+      width: 14px; height: 14px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.5;
+      flex-shrink: 0;
+    }
+
+    /* ============================================================
+       MOBILE (basic)
+       ============================================================ */
+    @media (max-width: 1100px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .dashboard-grid { grid-template-columns: 1fr; }
+      .dashboard-grid--3 { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(-100%); transition: transform 0.3s ease; }
+      .sidebar.open { transform: translateX(0); }
+      .main { margin-left: 0; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .dashboard-grid--3 { grid-template-columns: 1fr; }
+      .content { padding: 20px; }
+      .topbar { padding: 0 20px; }
+    }
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar__brand">
+      <div class="sidebar__brand-name">Levisha Malviya</div>
+      <div class="sidebar__brand-sub">Studio Admin</div>
+    </div>
+
+    <nav class="sidebar__nav">
+      <div class="sidebar__section-label">Overview</div>
+      <a href="#" class="nav-item active">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </a>
+      <a href="#" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+        Analytics
+      </a>
+
+      <div class="sidebar__section-label">Content</div>
+      <a href="#" class="nav-item">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        Projects
+        <span class="badge">12</span>
+      </a>
+      <a href="#" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16v14H4zM4 8h16"/><line x1="9" y1="8" x2="9" y2="18"/></svg>
+        Inventory
+      </a>
+      <a href="#" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Blog / Press
+      </a>
+
+      <div class="sidebar__section-label">Clients</div>
+      <a href="#" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Inquiries
+        <span class="badge">4</span>
+      </a>
+      <a href="#" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Clients
+      </a>
+      <a href="#" class="nav-item">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        Invoices
+      </a>
+
+      <div class="sidebar__section-label">Settings</div>
+      <a href="#" class="nav-item">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Settings
+      </a>
+      <a href="../index.html" class="nav-item" style="margin-top:8px;">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        View Website
+      </a>
+    </nav>
+
+    <div class="sidebar__footer">
+      <div class="sidebar__user">
+        <div class="sidebar__avatar">LM</div>
+        <div class="sidebar__user-info">
+          <div class="sidebar__user-name">Levisha Malviya</div>
+          <div class="sidebar__user-role">Administrator</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="topbar__left">
+        <div class="topbar__page-name">Dashboard</div>
+        <div class="topbar__breadcrumb">May 2025 · Studio Overview</div>
+      </div>
+      <div class="topbar__right">
+        <div class="topbar__notif">
+          <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="notif-dot"></span>
+        </div>
+        <button class="topbar__btn">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New Project
+        </button>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-card__icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></div>
+          <div class="stat-card__label">Total Projects</div>
+          <div class="stat-card__num"><span data-target="48">0</span></div>
+          <div class="stat-card__change up">+3 this quarter</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <div class="stat-card__label">Open Inquiries</div>
+          <div class="stat-card__num" style="color:var(--gold);"><span data-target="4">0</span></div>
+          <div class="stat-card__change up">+2 this week</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <div class="stat-card__label">Revenue MTD</div>
+          <div class="stat-card__num">₹<span data-target="12">0</span>L</div>
+          <div class="stat-card__change up">vs ₹9L last month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__icon"><svg viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></div>
+          <div class="stat-card__label">Site Views (30d)</div>
+          <div class="stat-card__num"><span data-target="3842">0</span></div>
+          <div class="stat-card__change down">-8% vs last month</div>
+        </div>
+      </div>
+
+      <!-- Projects Table + Inquiries -->
+      <div class="dashboard-grid">
+
+        <!-- Projects Table -->
+        <div class="panel">
+          <div class="panel__head">
+            <div class="panel__title">Recent Projects</div>
+            <a href="#" class="panel__action">View All</a>
+          </div>
+          <div class="panel__body">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Project</th>
+                  <th>Type</th>
+                  <th>Status</th>
+                  <th>Updated</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="project-cell">
+                      <img class="project-thumb" src="https://picsum.photos/seed/adm-p1/88/72" alt="">
+                      <div>
+                        <div class="project-cell__name">The Ivory Residence</div>
+                        <div class="project-cell__cat">New Delhi</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="tag" style="font-size:0.58rem;">Residential</span></td>
+                  <td><span class="status status--complete">Complete</span></td>
+                  <td style="font-size:0.78rem;color:rgba(28,28,28,0.45);">Apr 2024</td>
+                  <td><button class="tbl-btn">Edit</button></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="project-cell">
+                      <img class="project-thumb" src="https://picsum.photos/seed/adm-p2/88/72" alt="">
+                      <div>
+                        <div class="project-cell__name">Studio Ara</div>
+                        <div class="project-cell__cat">Mumbai</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="tag" style="font-size:0.58rem;">Commercial</span></td>
+                  <td><span class="status status--active">Active</span></td>
+                  <td style="font-size:0.78rem;color:rgba(28,28,28,0.45);">May 2024</td>
+                  <td><button class="tbl-btn">Edit</button></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="project-cell">
+                      <img class="project-thumb" src="https://picsum.photos/seed/adm-p3/88/72" alt="">
+                      <div>
+                        <div class="project-cell__name">The Amber Suite</div>
+                        <div class="project-cell__cat">Jaipur</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="tag" style="font-size:0.58rem;">Hospitality</span></td>
+                  <td><span class="status status--review">In Review</span></td>
+                  <td style="font-size:0.78rem;color:rgba(28,28,28,0.45);">Mar 2023</td>
+                  <td><button class="tbl-btn">Edit</button></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="project-cell">
+                      <img class="project-thumb" src="https://picsum.photos/seed/adm-p4/88/72" alt="">
+                      <div>
+                        <div class="project-cell__name">Casa Mira</div>
+                        <div class="project-cell__cat">Goa</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="tag" style="font-size:0.58rem;">Residential</span></td>
+                  <td><span class="status status--complete">Complete</span></td>
+                  <td style="font-size:0.78rem;color:rgba(28,28,28,0.45);">Nov 2023</td>
+                  <td><button class="tbl-btn">Edit</button></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="project-cell">
+                      <img class="project-thumb" src="https://picsum.photos/seed/adm-p5/88/72" alt="">
+                      <div>
+                        <div class="project-cell__name">Penthouse Noir</div>
+                        <div class="project-cell__cat">Hyderabad</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="tag" style="font-size:0.58rem;">Residential</span></td>
+                  <td><span class="status status--pending">On Hold</span></td>
+                  <td style="font-size:0.78rem;color:rgba(28,28,28,0.45);">Jan 2025</td>
+                  <td><button class="tbl-btn">Edit</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Inquiries -->
+        <div class="panel">
+          <div class="panel__head">
+            <div class="panel__title">Recent Inquiries</div>
+            <a href="#" class="panel__action">View All</a>
+          </div>
+          <div class="panel__body">
+            <div class="inquiry-item inquiry-unread">
+              <div class="inquiry-avatar" style="background:#5B7FD4;">AR</div>
+              <div>
+                <div class="inquiry-name">Ananya Rajan</div>
+                <div class="inquiry-preview">Looking for full design for my 3BHK in Bandra — budget...</div>
+              </div>
+              <div class="inquiry-meta">
+                <div class="inquiry-time">2h ago</div>
+                <div class="inquiry-type">Residential</div>
+              </div>
+            </div>
+            <div class="inquiry-item inquiry-unread">
+              <div class="inquiry-avatar" style="background:#4CAF7D;">VK</div>
+              <div>
+                <div class="inquiry-name">Vikram Kohli</div>
+                <div class="inquiry-preview">We're opening a new café in Connaught Place and need...</div>
+              </div>
+              <div class="inquiry-meta">
+                <div class="inquiry-time">1d ago</div>
+                <div class="inquiry-type">Commercial</div>
+              </div>
+            </div>
+            <div class="inquiry-item">
+              <div class="inquiry-avatar" style="background:#C9A96E;">PM</div>
+              <div>
+                <div class="inquiry-name">Priya Malhotra</div>
+                <div class="inquiry-preview">Interested in styling services for my Jaipur villa — already has furniture...</div>
+              </div>
+              <div class="inquiry-meta">
+                <div class="inquiry-time">2d ago</div>
+                <div class="inquiry-type">Styling</div>
+              </div>
+            </div>
+            <div class="inquiry-item">
+              <div class="inquiry-avatar" style="background:#E05555;">RS</div>
+              <div>
+                <div class="inquiry-name">Rohan Shah</div>
+                <div class="inquiry-preview">Boutique hotel project in Udaipur, looking for a complete...</div>
+              </div>
+              <div class="inquiry-meta">
+                <div class="inquiry-time">3d ago</div>
+                <div class="inquiry-type">Hospitality</div>
+              </div>
+            </div>
+            <div class="inquiry-item">
+              <div class="inquiry-avatar" style="background:#9B7ED4;">NK</div>
+              <div>
+                <div class="inquiry-name">Neha Kapoor</div>
+                <div class="inquiry-preview">Following up on our consultation from last week, wanted to...</div>
+              </div>
+              <div class="inquiry-meta">
+                <div class="inquiry-time">5d ago</div>
+                <div class="inquiry-type">Residential</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom row: Analytics + Inventory + Quick Actions -->
+      <div class="dashboard-grid--3">
+
+        <!-- Traffic Analytics -->
+        <div class="panel">
+          <div class="panel__head">
+            <div class="panel__title">Site Traffic</div>
+            <span class="panel__action">Monthly</span>
+          </div>
+          <div class="mini-chart">
+            <div class="mini-chart__label">Page Views</div>
+            <div class="mini-chart__val">3,842</div>
+            <div class="mini-chart__sub">↑ 14% vs last month</div>
+            <div class="bar-chart">
+              <div class="bar-chart__col"><div class="bar-chart__bar" style="height:40%"></div><span class="bar-chart__lbl">Dec</span></div>
+              <div class="bar-chart__col"><div class="bar-chart__bar" style="height:55%"></div><span class="bar-chart__lbl">Jan</span></div>
+              <div class="bar-chart__col"><div class="bar-chart__bar" style="height:48%"></div><span class="bar-chart__lbl">Feb</span></div>
+              <div class="bar-chart__col"><div class="bar-chart__bar" style="height:72%"></div><span class="bar-chart__lbl">Mar</span></div>
+              <div class="bar-chart__col"><div class="bar-chart__bar" style="height:60%"></div><span class="bar-chart__lbl">Apr</span></div>
+              <div class="bar-chart__col active"><div class="bar-chart__bar active" style="height:100%"></div><span class="bar-chart__lbl" style="color:var(--gold);">May</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Inventory -->
+        <div class="panel">
+          <div class="panel__head">
+            <div class="panel__title">Materials Inventory</div>
+            <a href="#" class="panel__action">Manage</a>
+          </div>
+          <div class="panel__body">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Item</th>
+                  <th>Stock</th>
+                </tr>
+              </thead>
+              <tbody class="inventory-row">
+                <tr>
+                  <td><img class="inv-img" src="https://picsum.photos/seed/inv1/80/80" alt="Linen Fabric"></td>
+                  <td>
+                    <div style="font-size:0.8rem;font-weight:500;">Belgian Linen — Ivory</div>
+                    <div style="font-size:0.68rem;color:rgba(28,28,28,0.38);">Fabric · 12m roll</div>
+                  </td>
+                  <td><span class="inv-stock inv-stock--high"><span class="inv-stock-dot"></span>In Stock</span></td>
+                </tr>
+                <tr>
+                  <td><img class="inv-img" src="https://picsum.photos/seed/inv2/80/80" alt="Brass Hardware"></td>
+                  <td>
+                    <div style="font-size:0.8rem;font-weight:500;">Brass Pull Handles</div>
+                    <div style="font-size:0.68rem;color:rgba(28,28,28,0.38);">Hardware · 8 units</div>
+                  </td>
+                  <td><span class="inv-stock inv-stock--med"><span class="inv-stock-dot"></span>Low Stock</span></td>
+                </tr>
+                <tr>
+                  <td><img class="inv-img" src="https://picsum.photos/seed/inv3/80/80" alt="Travertine Sample"></td>
+                  <td>
+                    <div style="font-size:0.8rem;font-weight:500;">Travertine Tiles</div>
+                    <div style="font-size:0.68rem;color:rgba(28,28,28,0.38);">Stone · 2 slabs</div>
+                  </td>
+                  <td><span class="inv-stock inv-stock--low"><span class="inv-stock-dot"></span>Order Soon</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="panel">
+          <div class="panel__head">
+            <div class="panel__title">Quick Actions</div>
+          </div>
+          <div class="quick-actions">
+            <button class="quick-action-btn">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add New Project
+            </button>
+            <button class="quick-action-btn">
+              <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Upload Images
+            </button>
+            <button class="quick-action-btn">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Draft Invoice
+            </button>
+            <button class="quick-action-btn">
+              <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              Reply to Inquiry
+            </button>
+            <button class="quick-action-btn">
+              <svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              Export Report
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+
+  <script>
+    /* Counter animation */
+    document.querySelectorAll('[data-target]').forEach(el => {
+      const target = parseInt(el.dataset.target, 10);
+      const dur = 1200;
+      const start = performance.now();
+      const run = now => {
+        const p = Math.min((now - start) / dur, 1);
+        const e = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.floor(e * target).toLocaleString();
+        if (p < 1) requestAnimationFrame(run);
+      };
+      setTimeout(() => requestAnimationFrame(run), 300);
+    });
+
+    /* Sidebar nav highlight */
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', e => {
+        if (item.getAttribute('href') === '#') {
+          e.preventDefault();
+          document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+          item.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
